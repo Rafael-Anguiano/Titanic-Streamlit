@@ -129,7 +129,7 @@ st.header('')
 st.subheader('4. Filtering by Class, Sex, and Survived')
 col1, col2 = st.columns(2)
 with col1:
-    Rclass = st.radio("Pclass", df.Pclass.unique())
+    Rclass = st.radio("Pclass", [1,2,3])
     RSurvived = st.radio("Survived", df.Survived.unique())
 with col2:
     RSex = st.radio("Sex", df.Sex.unique())
