@@ -1,3 +1,4 @@
+from numpy import integer
 import pandas as pd
 import streamlit as st
 import plotly.express as px
@@ -117,7 +118,7 @@ with col2:
 #------------------------Module 3--------------------------
 st.header('')
 st.subheader('3. Select a range of Age within the sidebar')
-values = (st.sidebar.slider("Age Range", float(df.Age.min()), float(df.Age.clip(upper=100.).max()), (0., 100.)))
+values = (st.sidebar.slider("Age Range", int(df.Age.min()), int(df.Age.clip(upper=100).max()), (0, 100)))
 hist = px.histogram(df.query(f"Age.between{values}", engine='python'), x="Age", nbins=10, title = "Age Distribution")
 hist.update_xaxes(title="Age")
 hist.update_yaxes(title="# of People")
