@@ -28,60 +28,6 @@ st.code(
 
 ################################################
 
-def get_overall_top(self):
-            '''
-            returns a Data Frame sorted by the number of words
-            '''
-            df = self.copy()
-            df = df.groupby(['Fare']).apply(lambda x:' '.join(x)).reset_index()
-            df =df.sort_values(by='Fare')
-            return df
-
-class plot_type:
-    def __init__(self,data):
-        self.data = data
-        self.fig = None
-        self.update_layout = None
-
-    def bar(self,x,y,color):
-        self.fig = px.bar(self.data,x=x,y=y,color=color)
-
-    def pie(self,x,y):
-        self.fig = px.pie(self.data,values=x,names=y)
-
-        
-    def set_title(self,title):
-        
-        self.fig.update_layout(
-                title=f"{title}",
-                    yaxis=dict(tickmode="linear"),
-                    paper_bgcolor='rgba(0,0,0,0)',
-                    plot_bgcolor='rgba(0,0,0,0)',
-                    font=dict(color='white',size=18))
-
-    def set_title_x(self,title):
-        
-        self.fig.update_layout(
-                title=f"{title}",
-                    xaxis=dict(tickmode="linear"),
-                    paper_bgcolor='rgba(0,0,0,0)',
-                    plot_bgcolor='rgba(0,0,0,0)',
-                    font=dict(color='white',size=18))
-
-    def set_title_pie(self,title):
-        self.fig.update_layout(title=title,
-                                paper_bgcolor='rgba(0,0,0,0)',
-                                plot_bgcolor='rgba(0,0,0,0)',
-                                font=dict(color='white',size=18))
-        
-
-    def plot(self):
-        st.write(self.fig)
-
-
-
-
-
 ################################################
 
 
@@ -143,16 +89,21 @@ st.dataframe(first_filter)
 
 #------------------------Module 5--------------------------
 
-#def filtering(self,searched_class):
-#            df = self.copy()
-#            try:
-#                df = df[df['Pclass'] == searched_class].groupby(['character'])['dialogue'].apply(lambda x:' '.join(x)).reset_index()
-#                df['spoken_words'] = df.dialogue.str.split().str.len()
-#                df = self.data_sort(df)
-#                return df
-#            except:
-#                # print("Invalid season number or record number")
-#                return 
+st.header('')
+st.subheader('5. Selecting quantity of columns in a Histogram')
+
+quantity = st.sidebar.radio("Bars quantity", ['Not defined',2,3,5,9])
+if quantity == 'Not defined':
+  quantity = 1
+hist1 = px.histogram(df.query(f"Age.between{values}", engine='python').sort_values("Age", ascending=False), x="Age", nbins=quantity-1, title = "Age Distribution").update_layout(bargap=0.1)
+hist1.update_xaxes(title="Age")
+hist1.update_yaxes(title="# of People")
+st.plotly_chart(hist1)
+
+
+
+# .sort_values("Age", ascending=False)
+
 
 #quartile1 = df.query(f"Age.between{(0, 20)}", engine='python').groupby("Pclass").Survived.count().reset_index()
 #quartile2 = df.query(f"Age.between{(21, 40)}", engine='python').groupby("Pclass").Survived.count().reset_index()
@@ -176,20 +127,3 @@ st.dataframe(first_filter)
 #st.plotly_chart(fig)
 
 
-###########
-#st.title("Overall top characters based on number of spoken words")
-#st.header("number of results")
-
-#num1 = st.slider("",5,60)
-
-#temp_data1 = get_overall_top(df)
-
-#bar2 = plot_type(temp_data1[-num1:])
-#bar2.bar(bar2,"words","character","words")
-#bar2.set_title(bar2, "Overall Top")
-#bar2.plot()
-
-#hist = px.histogram(df)
-#hist.update_xaxes(title="Age")
-#hist.update_yaxes(title="# of People")
-#st.plotly_chart(hist)
